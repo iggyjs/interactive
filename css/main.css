@@ -1,0 +1,101 @@
+*{
+	font-family: 'Roboto Mono', monospace;
+	font-weight: 400;
+}
+
+html, body{
+	background-color: #F5F5F5;
+}
+
+
+li{
+	margin-left: 0px;
+	padding-left: 0;
+}
+
+a { 
+	color: inherit;
+	text-decoration: none;
+}
+
+a:hover {
+	cursor: pointer;
+	color: inherit;
+	text-decoration: none;
+}
+
+a:active{
+	text-decoration: none !important;
+}
+
+#titleBanner{
+	width: 0%;
+	height: 140px;
+	background-color: #3949AB;
+}
+
+#titleDiv{
+	position: fixed;
+	margin: 0 auto;
+	top: 40px;
+	left: 40px;
+	float: left;
+	max-width: 340px;
+	padding-top:8px;
+	padding-left: 10px;
+	padding-right: 50px;
+	border: 2px solid #F5F5F5;
+}
+
+#titleParagraph{
+	color:#F5F5F5;
+	font-size: 18px;	
+}
+
+#content{
+	display: none;
+	border-left: 1px solid #D7D7D7;
+	margin-top:30px;
+	list-style-type: none;
+	padding-left: 0;
+	margin-left: 120px;
+	margin-right: 120px;
+
+}
+
+@media screen and (max-width: 970px) {
+    #content{
+    	margin-left:10px;
+    	margin-right: 0;
+    }
+}
+
+.assignment-item{
+	min-height: 130px;
+	-webkit-transition: background-color 300ms linear;
+    -moz-transition: background-color 300ms linear;
+    -o-transition: background-color 300ms linear;
+    -ms-transition: background-color 300ms linear;
+    transition: background-color 300ms linear;
+}
+
+.assignment-item:hover{
+	background-color: #EEEEEE;
+}
+
+.assignment-title{
+	font-size: 18px;
+}
+
+.assignment-text{
+	margin-left:20px;
+	padding-top: 20px;
+}
+
+.go-to-arrow{
+	opacity: 0;
+	float: right;
+	font-size: 25px;
+	margin-right: 20px;
+	margin-top:-30px;
+}
