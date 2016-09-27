@@ -1,6 +1,7 @@
 *{
 	cursor: none;
 }
+
 #writeUp{
 	font-family: 'Open Sans', sans-serif;
 	width: 100%;
@@ -9,8 +10,9 @@
 }
 
 #content{
-	padding-left: 20px;
-	padding-right: 20px;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 0;
 	width: 400px;
 	padding-top: 0;
 	margin-left: 50px;
@@ -22,12 +24,35 @@
 #title{
 	font-weight: 400;
 	font-size: 20px;
+	margin-bottom: 15px;
+	margin-top: 15px;
+	margin-left: 5px;
+}
+
+#p5_loading{
+	display: none;
+}
+
+#mobile{
+	display: none;
+	padding-top: 100px;
+	padding-left: 10px;
+	padding-right: 10px;
 }
 
 .description{
 	padding-left: 100px;
 	margin-top: 0;
 	font-size: 15px;
+}
+
+#laptopImg{
+	height: 100px;
+	width: auto;
+}
+
+.mobile-text{
+	font-family: 'Open Sans', sans-serif;
 }
 
 #secondParagraph{
@@ -51,7 +76,8 @@ kbd {
 
 #assignments{
 	position: fixed;
-	bottom: 10px;
+	bottom: 14px;
+	right:14px;
 }
 
 #assignmentsText{
@@ -67,6 +93,13 @@ kbd {
 	margin-left: 10px;
 }
 
-#arrow{
-	margin-right: 10px;
+#loadStatus{
+	position: fixed;
+	bottom: 10px;
+	left: 10px
+}
+
+#bool{
+	font-style: normal;
+	color:#6060FA;
 }

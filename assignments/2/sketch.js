@@ -1,4 +1,6 @@
 var gameInitiated = false;
+var doneLoading = false;
+var mobile = false;
 var xPos, yPos;
 var compXPos, compYPos;
 var song;
@@ -50,6 +52,9 @@ function preload() {
 }
 
 function setup() {
+  doneLoading = true;
+  $("#bool").html("true");
+  console.log("called rom sketch.js");
   song.play();
   song.loop();
   createCanvas(WIDTH, HEIGHT);
@@ -61,7 +66,8 @@ function setup() {
 }
 
 function mousePressed(){
-  gameInitiated = true;
+  if (!mobile)
+    gameInitiated = true;
 }
 
 function drawBackground(){

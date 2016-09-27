@@ -12,7 +12,9 @@
 
     <script src="sketch.js" type="text/javascript"></script>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <style> body {padding: 0; margin: 0; top:0; background-color:#F8F8F8; overflow-y: hidden} canvas {vertical-align: top;} </style>
 
 
@@ -20,8 +22,10 @@
   <body> 
     <div id="writeUp">
       <div id="content">
-        <p id="title">Chase Game</p>
+        <p id="title">&#172; Chase Game</p>
       </div>
+
+      
 
 
       <p class="description">Game made for my interative computing class.</p>
@@ -39,21 +43,45 @@
           <kbd>Command</kbd><kbd>+</kbd> <kbd>B</kbd> 
         </div>
       </div>
+      <div id="loadStatus">
+          <kbd>loaded = <i id="bool">false</i></kbd>
+      </div>
 
     </div>
 
+    <center>
+      <div id="mobile">
+        <img id="laptopImg" src="assets/laptop_img.png" alt="">
+        <p class="mobile-text">This game is meant for Desktop only.</p>
+        <p class="mobile-text">Game uses arrow keys, which phones don't have just yet.</p>
+        <a style="font-size:15px;" class="mobile-text">&#8592; To go back to assignments</a>
+      </div>
+    </center>
 
   </body>
 
   <script>
     $(function(){
-      $("#writeUp").css("height", $(window).height()+'px');
 
-      $(document).on('click', function(){
-        $("#assignments").hide();
-        $("html, body").animate({ scrollTop: $(document).height() }, 1000);
-        return false;
-      });
+      if($(window).width() > 600){ 
+        $("#writeUp").css("height", $(window).height()+'px');
+        $("#bool").html(doneLoading);
+
+        $(document).on('click', function(){
+          if (doneLoading) {
+            $("#loadStatus").hide();
+            $("#assignments").hide();
+            $("html, body").animate({ scrollTop: $(document).height() }, 1000);
+            return false;
+          }
+        });
+      } else {
+        mobile = true;
+        $("canvas").hide();
+        $("#writeUp").hide();
+        $("#mobile").fadeIn();
+      }
+
     });
 
     $(window).keydown(function (e){
