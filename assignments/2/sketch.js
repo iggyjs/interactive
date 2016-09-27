@@ -8,12 +8,13 @@ var HEIGHT = $(window).height();
 //user
 var userWidth=25;
 var userHeight=25;
-var playerXSpeed = 10;
-var playerYSpeed = 10;
+var playerXSpeed = 0;
+var playerYSpeed = 0;
+var acceleration = 0.05;
 
 //computer
 var compXSpeed = 1;
-var compYSpeed = 1;
+var compYSpeed = 1.2;
 var computerWidth = 50;
 var computerHeight = 50;
 
@@ -23,13 +24,26 @@ var computerScore = 0;
 var bounces = 0;
 var newRound = false;
 var playerPositions = [[100,100], [WIDTH-100,100], [100,HEIGHT-100], [WIDTH-100,HEIGHT-100]];
-var computerPositions = [[300,300], [WIDTH-300,100], [300,HEIGHT-300], [300,300]];
+var computerPositions = [[300,300], [WIDTH-300,200], [300,HEIGHT-300], [300,300]];
 
 
 
 function preload() {
-  characterImage = loadImage("assets/user_character.svg");
-  computerImage = loadImage("assets/user_character.svg");
+  // characterImage = loadImage("assets/user_character.svg");
+  playerUp = loadImage("assets/player_up.svg");
+  playerDown = loadImage("assets/player_down.svg");
+  playerLeft = loadImage("assets/player_left.svg");
+  playerRight = loadImage("assets/player_right.svg");
+
+  characterImage = playerUp;
+
+  computerUp = loadImage("assets/computer_up.svg");
+  computerDown = loadImage("assets/computer_down.svg");
+  computerRight = loadImage("assets/computer_right.svg");
+  computerLeft = loadImage("assets/computer_left.svg");
+
+  computerImage = computerUp;
+
   fontRegular = loadFont("assets/Lato-Regular.ttf");
   // computerImage = loadImage("assets/computer_character.svg");
 }
@@ -52,8 +66,17 @@ function drawBackground(){
 }
 
 function draw() {
-    compXPos += compXSpeed;
-    compYPos += compYSpeed;
+    if (playerScore == 0) {
+        compXPos += compXSpeed;
+        compYPos += compYSpeed;    
+    }
+
+    //increase difficulty
+    if (playerScore >= 1){
+       var scalar = playerScore * 0.05;
+       compXPos += compXSpeed + (compXSpeed*scalar);
+       compYPos += compYSpeed + (compYSpeed*scalar);
+    }
 
     var userRight = xPos + characterImage.width;
     var userLeft  = xPos;
@@ -65,6 +88,21 @@ function draw() {
     var computerRight = compXPos + computerImage.width;
     var computerLeft  = compXPos;
 
+
+    //switch computer images
+
+    // right
+    if(compXSpeed > 0 && compXSpeed > compYSpeed)
+        computerImage = computerRight;
+    // left
+    if(compXSpeed < 0 && compXSpeed < compYSpeed)
+        computerImage = computerLeft;
+    // up
+    if(compYSpeed > 0 && compYSpeed > compXSpeed)
+        computerImage = computerUp;
+    // down
+    if(compYSpeed < 0 && compYSpeed < compXSpeed)
+        computerImage = computerDown;
 
     // chase logic
     if (userRight < computerLeft) {
@@ -93,18 +131,25 @@ function draw() {
 
     //player movement
     if (keyIsDown(LEFT_ARROW)) {
-      xPos -= playerXSpeed;
+      playerXSpeed -= acceleration;
+      characterImage = playerLeft;
     }
     if (keyIsDown(RIGHT_ARROW)) {
-      xPos += playerXSpeed;
+      playerXSpeed += acceleration;
+      characterImage = playerRight;
     }
     if (keyIsDown(UP_ARROW)) {
-      yPos -= playerYSpeed;
+      playerYSpeed -= acceleration;
+      characterImage = playerUp;
     }
     if (keyIsDown(DOWN_ARROW)) {
-      yPos += playerYSpeed;
+      playerYSpeed += acceleration;
+      characterImage = playerDown;
     }
     
+    xPos += playerXSpeed;
+    yPos += playerYSpeed;
+
     //wrap around
     if (xPos > width) {
       xPos = 0;
@@ -184,13 +229,13 @@ function draw() {
             newComputerPosX = newComputerPos[0];
             newComputerPosY = newComputerPos[1];
 
-        
+            playerXSpeed = 0;
+            playerYSpeed = 0;
 
             xPos = newPlayerPosX - 0.5 * characterImage.width;
             yPos = newPlayerPosY - 0.5 * characterImage.height;
             compXPos = newComputerPosX - 0.5 * computerImage.width;;
             compYPos = newComputerPosY - 0.5 * computerImage.height;;
-            bounces = 0;
             newRound = false;
         }
        
