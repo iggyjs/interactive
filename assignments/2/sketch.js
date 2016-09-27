@@ -45,10 +45,13 @@ function preload() {
   computerImage = computerUp;
 
   fontRegular = loadFont("assets/Lato-Regular.ttf");
-  // computerImage = loadImage("assets/computer_character.svg");
+
+  song = loadSound("assets/game.m4a");
 }
 
 function setup() {
+  song.play();
+  song.loop();
   createCanvas(WIDTH, HEIGHT);
   //initial positions
   xPos = 100 - 0.5 * characterImage.width;
@@ -240,11 +243,6 @@ function draw() {
         }
        
     } else {
-        stroke(255);
-        textSize(20);
-        textFont(fontRegular);
-        textStyle(NORMAL);
-        text("Catch the green thing before it hits the corner of the screen.", 50, 70)
-        text("Click to start.", 50, 105)
+
     }
 }
