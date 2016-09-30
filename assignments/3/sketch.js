@@ -1,4 +1,14 @@
 // GLOBAL
+// TODO:
+/*
+    - Add some HTML Panel to engage in cheat mode
+    = Add start screen to choose difficulty
+    - Have different difficulty settings
+    - Design background for game
+    - Create some obstacle
+    - Implement lives
+    - Attach Parse to record high scores
+*/
 var DEVELOPMENT = true;
 
 var gameInitiated = false;
@@ -289,7 +299,6 @@ function draw() {
         // collision
         playerScore++;
         newRound = true;
-    }
-    
+    }    
     drawGame();
 }
