@@ -62,27 +62,28 @@
 
   <script>
     $(function(){
+        if (DEVELOPMENT){
+            $("#writeUp").hide();
+        }
 
-      if($(window).width() > 600){ 
-        $("#writeUp").css("height", $(window).height()+'px');
-        $("#bool").html(doneLoading);
+        if($(window).width() > 600){ 
+            $("#writeUp").css("height", $(window).height()+'px');
+            $("#bool").html(doneLoading);
 
-        $(document).on('click', function(){
-          if (doneLoading) {
-            $("#loadStatus").hide();
-            $("#assignments").hide();
-            $("html, body").animate({ scrollTop: $(document).height() }, 1000);
-            return false;
-          }
-        });
-      } else {
-        mobile = true;
-        $("canvas").hide();
-        $("#writeUp").hide();
-        $("#mobile").fadeIn();
-        // $("body").css('cursor', "pointer");
-        // $("html").css('cursor', "pointer");
-      }
+            $(document).on('click', function(){
+              if (doneLoading) {
+                $("#loadStatus").hide();
+                $("#assignments").hide();
+                $("html, body").animate({ scrollTop: $(document).height() }, 1000);
+                return false;
+              }
+            });
+        } else {
+            mobile = true;
+            $("canvas").hide();
+            $("#writeUp").hide();
+            $("#mobile").fadeIn();
+        }
 
     });
 
