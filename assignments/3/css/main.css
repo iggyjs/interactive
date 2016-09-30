@@ -1,0 +1,105 @@
+html, body{
+	cursor: none;
+}
+
+#writeUp{
+	font-family: 'Open Sans', sans-serif;
+	width: 100%;
+	height: 100%;
+	background-color: #F8F8F8;
+}
+
+#content{
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 0;
+	width: 400px;
+	padding-top: 0;
+	margin-left: 50px;
+	margin-top: 50px;
+	margin-bottom: 40px;
+	border: 1px solid #434344;
+}
+
+#title{
+	font-weight: 400;
+	font-size: 20px;
+	margin-bottom: 15px;
+	margin-top: 15px;
+	margin-left: 5px;
+}
+
+#p5_loading{
+	display: none;
+}
+
+#mobile{
+	display: none;
+	padding-top: 100px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.description{
+	padding-left: 100px;
+	margin-top: 0;
+	font-size: 15px;
+}
+
+#laptopImg{
+	height: 100px;
+	width: auto;
+}
+
+.mobile-text{
+	font-family: 'Open Sans', sans-serif;
+}
+
+#secondParagraph{
+	padding-top: 20px;	
+}
+
+kbd {
+  float: left;
+  background-color: #ededed;
+  border-color: #dddddd;
+  color: #222222;
+  border-style: solid;
+  border-width: 1px;
+  font-family: "Consolas", "Menlo", "Courier", monospace;
+  font-size: inherit;
+  margin: 2px;
+  padding: 0.125rem 0.25rem 0;
+  border-radius: 3px;
+  line-height: 1.6em;
+}
+
+#assignments{
+	position: fixed;
+	bottom: 14px;
+	right:14px;
+}
+
+#assignmentsText{
+	display: inline;
+	float: left;
+	font-size: 12px;
+	margin-left: 15px;
+}
+
+#keyGroup{
+	float: left;
+	margin-top: 5px;
+	margin-left: 10px;
+}
+
+#loadStatus{
+	position: fixed;
+	bottom: 10px;
+	left: 10px
+}
+
+#bool{
+	font-style: normal;
+	color:#6060FA;
+}

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+    <title>Chase Game</title>
+    <script src="../../bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="libraries/p5.js" type="text/javascript"></script>
+
+    <script src="libraries/p5.dom.js" type="text/javascript"></script>
+    <script src="libraries/p5.sound.js" type="text/javascript"></script>
+
+    <script src="sketch.js" type="text/javascript"></script>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+    <style> body {padding: 0; margin: 0; top:0; background-color:#F8F8F8; overflow-y: hidden} canvas {vertical-align: top;} </style>
+
+
+  </head>
+  <body> 
+    <div id="writeUp">
+      <div id="content">
+        <p id="title">&#172; Chase Game</p>
+      </div>
+
+      
+
+
+      <p class="description">Game made for my interative computing class.</p>
+      <p class="description">Built using p5.js.</p>
+      <p class="description"> Characters designed using Sketch 3 to mimic classic space invaders design.</p>
+      <p class="description"> Music by Kyle Dixon & Michael Stein</p>
+
+      <p id="secondParagraph" class="description">Use the arrow keys to move around, get the red thing before it goes off the screen.</p>
+      <p class="description">Increases difficulty as you score.</p>
+      <p class="description">Click anywhere to start.</p>
+
+      <div id="assignments">
+        <p id="assignmentsText">&#8592; To go back to assignments</p>
+        <div id="keyGroup">
+          <kbd>Command</kbd><kbd>+</kbd> <kbd>B</kbd> 
+        </div>
+      </div>
+      <div id="loadStatus">
+          <kbd>loaded = <i id="bool">false</i></kbd>
+      </div>
+
+    </div>
+
+    <center>
+      <div id="mobile">
+        <img id="laptopImg" src="assets/laptop_img.png" alt="">
+        <p class="mobile-text">This game is meant for Desktop only.</p>
+        <p class="mobile-text">Game uses arrow keys, which phones don't have just yet.</p>
+        <a href="http://i6.cims.nyu.edu/~ijs253/interactive/" style="font-size:15px; text-decoration: none; color:inherit;" class="mobile-text">&#8592; To go back to assignments</a>
+      </div>
+    </center>
+
+  </body>
+
+  <script>
+    $(function(){
+
+      if($(window).width() > 600){ 
+        $("#writeUp").css("height", $(window).height()+'px');
+        $("#bool").html(doneLoading);
+
+        $(document).on('click', function(){
+          if (doneLoading) {
+            $("#loadStatus").hide();
+            $("#assignments").hide();
+            $("html, body").animate({ scrollTop: $(document).height() }, 1000);
+            return false;
+          }
+        });
+      } else {
+        mobile = true;
+        $("canvas").hide();
+        $("#writeUp").hide();
+        $("#mobile").fadeIn();
+        // $("body").css('cursor', "pointer");
+        // $("html").css('cursor', "pointer");
+      }
+
+    });
+
+    $(window).keydown(function (e){
+      if ((e.metaKey || e.ctrlKey) && e.keyCode == 66) { /*ctrl+b or command+b*/
+          e.preventDefault();
+          window.location.href = "http://i6.cims.nyu.edu/~ijs253/interactive/";
+          return false;
+      }
+    });
+  </script>
+</html>
