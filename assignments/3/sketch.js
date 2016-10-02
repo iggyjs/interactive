@@ -1,4 +1,3 @@
-// GLOBAL
 // TODO:
 /*
     - Add some HTML Panel to engage in cheat mode
@@ -19,6 +18,8 @@ var cellColors = ["#8177E9", "#5BCECA", "#FB6868"];
 var cellStrokes = ["#5345E9", "#42AAA6", "#A93A3A"];
 var difficulties = ["easy", "hard", "nope"];
 var cellDimensions = [85, 85, 85];
+
+var newGameCellDimension = 85;
 
 var startPlayerXSpeed = 0;
 var startPlayerYSpeed = 0;
@@ -46,7 +47,7 @@ var userWidth=25;
 var userHeight=25;
 var playerXSpeed = 0;
 var playerYSpeed = 0;
-var acceleration = 0.05;
+var acceleration = 0.1;
 
 //computer
 var compXSpeed = 1;
@@ -62,8 +63,11 @@ var newRound = false;
 var playerPositions = [[100,100], [WIDTH-100,100], [100,HEIGHT-100], [WIDTH-100,HEIGHT-100]];
 var computerPositions = [[300,300], [WIDTH-300,200], [300,HEIGHT-300], [300,300]];
 
+// do not remove
+function noop(){};
 
 function difficulty(){
+    
     if (globalDifficulty) { //check if initialized to value
         var scalar;
 
@@ -86,14 +90,18 @@ function difficulty(){
         }
 
         displayLives = lives;
-        
+
         if (computerScore != 0)
             displayLives = displayLives - computerScore;
 
-        compXPos += compXSpeed;
-        compYPos += compYSpeed;            
+        difficulty = noop;
     }
     
+}
+
+function moveComputer(){
+    compXPos += compXSpeed;
+    compYPos += compYSpeed; 
 }
 
 function callComputerMovementLogic(){   
@@ -150,6 +158,7 @@ function movePlayer(){
 }
 
 function callChaseLogic(userRight, userLeft, userTop, userBottom, computerTop, computerBottom, computerRight, computerLeft) {
+
     if (userRight < computerLeft) {
         // left
         if (compXSpeed < 0)
@@ -197,7 +206,7 @@ function drawGame(){
     //drawing logic
     if (gameInitiated) {
         if (computerScore >= lives)
-            drawStartScreen();
+            drawGameOverScreen();
         else
             game(globalDifficulty, backgroundColor); 
     } else {    
@@ -214,6 +223,59 @@ function game(difficulty, backgroundColor){
         startNewRound();
     }   
 }
+
+
+function drawGameOverScreen(){
+    background(backgroundColor);
+
+
+    fill('rgba(255,255,255)');
+    noStroke();
+    
+
+    newGameCell(WIDTH/2, 300, "Play again");
+    
+    //text
+    textSize(20);
+    textFont(fontRegular);
+    textAlign(CENTER);
+    text("Game Over", WIDTH/2, 100);
+
+    drawStartPlayer();
+}
+
+function newGameCell(x,y,passedText){
+
+    if (startPlayerX > x-(newGameCellDimension/2) && startPlayerX < x+(newGameCellDimension/2) && startPlayerY < y+(newGameCellDimension/2) && startPlayerY > y-(newGameCellDimension/2)) {
+        
+        newGameCellDimension+=15;
+        fill(0);
+        stroke(0);
+        ellipse(x,y,newGameCellDimension,newGameCellDimension);
+        noStroke();
+        fill(255,255,255);
+        textSize(15);
+        text(difficultyText,x,y+5);
+
+        if(newGameCellDimension > WIDTH+550){
+            // ready to start
+            gameInitiated = true;
+            
+        }
+    }
+
+    else {
+
+        fill(0);
+        stroke(0);
+        ellipse(x,y,newGameCellDimension,newGameCellDimension);
+        noStroke();
+        fill(255,255,255);
+        textSize(15);
+        text(difficultyText,x,y+5);
+    }
+}
+
 
 
 function drawStartScreen(){
@@ -314,7 +376,7 @@ function difficultyCell(x,y,i,difficultyText){
         textSize(15);
         text(difficultyText,x,y+5);
 
-        if(cellDimensions[i] > WIDTH+250){
+        if(cellDimensions[i] > WIDTH+550){
             // ready to start
             gameInitiated = true;
             globalDifficulty = difficulties[i];
@@ -323,7 +385,6 @@ function difficultyCell(x,y,i,difficultyText){
     }
 
     else {
-
         fill(cellColors[i]);
         stroke(cellStrokes[i]);
         ellipse(x,y,cellDimensions[i],cellDimensions[i]);
@@ -346,9 +407,7 @@ function drawScoreText(){
     textAlign(LEFT);
     text("Time played: " + Number((millis()/1000).toFixed(1)), 30, 30);
     text("Lives left: " + displayLives, 30, 50);
-    text("Your score: " + playerScore, 30, 70);
-    text("Computer score: " + computerScore, 30, 90);
-
+    text("Score: " + playerScore, 30, 70);
 }
 
 function drawCharacters(){
@@ -385,7 +444,6 @@ function startNewRound(){
 }
 
 // p5
-
 function preload() {
     playerUp = loadImage("assets/player_up.svg");
     playerDown = loadImage("assets/player_down.svg");
@@ -441,6 +499,7 @@ function draw() {
 
     //increase difficulty
     difficulty();
+    moveComputer();
 
     //movement
     callComputerMovementLogic();
