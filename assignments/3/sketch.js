@@ -7,9 +7,22 @@
     - Design background for game
     - Create some obstacle
     - Implement lives
-    - Attach Parse to record high scores
+    - Attach Parse to record high scores    
 */
 var DEVELOPMENT = true;
+
+//start screen
+var startScreenCounter = 0;
+var stars = [];
+var starsOpacity = 0.8;
+var cellColors = ["#8177E9", "#5BCECA", "#FB6868"];
+var cellStrokes = ["#5345E9", "#42AAA6", "#A93A3A"];
+
+
+var startPlayerXSpeed = 0;
+var startPlayerYSpeed = 0;
+var startAcceleration = 0.05;
+
 
 var gameInitiated = false;
 var doneLoading = false;
@@ -19,6 +32,9 @@ var compXPos, compYPos;
 var song;
 var WIDTH = $(window).width();
 var HEIGHT = $(window).height();
+
+var startPlayerX = WIDTH/2;
+var startPlayerY = HEIGHT-100;
 
 //user
 var userWidth=25;
@@ -155,10 +171,10 @@ function checkComputerScore(){
 
 function drawGame(){
     //drawing logic
-    if (gameInitiated && !DEVELOPMENT) {
+    if (gameInitiated) {
         game();
-    } else if (DEVELOPMENT){
-        game();
+    } else {
+        drawStartScreen();
     }
 }
 
@@ -172,17 +188,109 @@ function game(){
     }   
 }
 
+
+function drawStartScreen(){
+    
+    //text
+    textSize(20);
+    textFont(fontRegular);
+    textAlign(CENTER);
+    text("Select a difficulty", WIDTH/2, 100);
+
+    // stars
+    startScreenCounter++;
+
+    if (startScreenCounter%60 == 0) {
+        stars.push(rect(random(0,WIDTH), random(0,HEIGHT), 1, 1));
+    }
+
+    fill('rgba(255,255,255)');
+    noStroke();
+    
+
+    for (var i=0; i<stars.length; i++){
+        stars[i];
+    }
+
+
+    difficultyCell(WIDTH/2 - 160, 300, 85, 85, 0, "Easy");
+    difficultyCell(WIDTH/2, 300, 85, 85, 1, "Hard");
+    difficultyCell(WIDTH/2 + 160, 300, 85, 85, 2, "Nope");
+
+    drawStartPlayer();
+}
+
+
+function drawStartPlayer(){
+    image(startScreenPlayer, startPlayerX, startPlayerY);
+    tint(random(0,255), random(0,255), random(0,255));  // Tint blue
+    callStartPlayerMovementLogic();
+}
+
+function callStartPlayerMovementLogic(){
+    // change
+    if (keyIsDown(LEFT_ARROW)) {
+        startPlayerXSpeed -= acceleration;
+    }
+    if (keyIsDown(RIGHT_ARROW)) {
+        startPlayerXSpeed += acceleration;
+    }
+    if (keyIsDown(UP_ARROW)) {
+        startPlayerYSpeed -= acceleration;
+    }
+    if (keyIsDown(DOWN_ARROW)) {
+        startPlayerYSpeed += acceleration;
+    }
+
+    //wrap around
+    if (startPlayerX > width) {
+      startPlayerX = 0;
+    }
+    if (startPlayerX < 0) {
+      startPlayerX = width;
+    }
+    if (startPlayerY > HEIGHT) {
+      startPlayerY = 0;
+    }
+    if (startPlayerY < 0) {
+      startPlayerY = HEIGHT;
+    }
+
+    moveStartPlayer();
+
+}
+
+function moveStartPlayer(){
+    startPlayerX += startPlayerXSpeed;
+    startPlayerY += startPlayerYSpeed;
+
+}
+
+function difficultyCell(x,y,w,h,i,difficultyText){
+
+    fill(cellColors[i]);
+    stroke(cellStrokes[i]);
+    ellipse(x,y,w,h);
+    noStroke();
+    fill(255,255,255);
+    textSize(15);
+    text(difficultyText,x,y+5) 
+
+    if (startPlayerX > x-(w/2) && startPlayerX < x+(w/2) && startPlayerY < y+(h/2) && startPlayerY > y-(h/2)) {
+        console.log("inside");
+    }
+}
+
+
 function drawBackground(){
-    background("#F8F8F8");
+    background("#F8F8F8"); 
 }
 
 function drawScoreText(developing){
     fill(0);
     stroke(255);
     textSize(15);
-
-    if (!developing)
-        textFont(fontRegular);
+    textFont(fontRegular);
 
     textStyle(NORMAL);
     text("Time played: " + Number((millis()/1000).toFixed(1)), 50, 45);
@@ -243,8 +351,11 @@ function preload() {
     computerLeft = loadImage("assets/computer_left.svg");
     computerImage = computerUp;
 
+    startScreenPlayer = loadImage('assets/start_player.svg');
+
+    fontRegular = loadFont("assets/Lato-Regular.ttf");
+
     if (!DEVELOPMENT) {
-        fontRegular = loadFont("assets/Lato-Regular.ttf");
         song = loadSound("assets/game.m4a");
     }
 }
@@ -265,6 +376,8 @@ function setup() {
         song.play();
         song.loop();
     }
+
+    background("#2F334D");
 }
 
 function draw() {
@@ -272,6 +385,7 @@ function draw() {
     var userLeft  = xPos;
     var userTop   = yPos;
     var userBottom = yPos + characterImage.height;
+
     var computerTop    = compYPos;
     var computerBottom = compYPos + computerImage.height;
     var computerRight = compXPos + computerImage.width;
