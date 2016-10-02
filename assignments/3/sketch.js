@@ -214,9 +214,10 @@ function drawStartScreen(){
     }
 
 
-    difficultyCell(WIDTH/2 - 160, 300, 0, "Easy");
-    difficultyCell(WIDTH/2, 300, 1, "Hard");
     difficultyCell(WIDTH/2 + 160, 300, 2, "Nope");
+    difficultyCell(WIDTH/2, 300, 1, "Hard");
+    difficultyCell(WIDTH/2 - 160, 300, 0, "Easy");
+    
 
     drawStartPlayer();
 }
@@ -286,38 +287,22 @@ function difficultyCell(x,y,i,difficultyText){
         noStroke();
         fill(255,255,255);
         textSize(15);
-        text(difficultyText,x,y+5)  
+        text(difficultyText,x,y+5);
+
+        if(cellDimensions[i] > WIDTH+250){
+            // ready to start
+        }
     }
 
     else {
-        if (inCell1){
-            fill(cellColors[0]);
-            noStroke();
-            ellipse(x,y,cellDimensions[i],cellDimensions[i]);
-            
-        }
 
-        else if (inCell2) {
-            fill(cellColors[1]);
-            noStroke();
-            ellipse(x,y,cellDimensions[i],cellDimensions[i]);
-        }
-
-        else if (inCell3) {
-            fill(cellColors[2]);
-            noStroke();
-            ellipse(x,y,cellDimensions[i],cellDimensions[i]);
-        }
-
-        else { //not in any cells
-            fill(cellColors[i]);
-            stroke(cellStrokes[i]);
-            ellipse(x,y,cellDimensions[i],cellDimensions[i]);
-            noStroke();
-            fill(255,255,255);
-            textSize(15);
-            text(difficultyText,x,y+5);
-        }
+        fill(cellColors[i]);
+        stroke(cellStrokes[i]);
+        ellipse(x,y,cellDimensions[i],cellDimensions[i]);
+        noStroke();
+        fill(255,255,255);
+        textSize(15);
+        text(difficultyText,x,y+5);
     }
 }
 
