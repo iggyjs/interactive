@@ -25,9 +25,9 @@ var startPlayerYSpeed = 0;
 var startAcceleration = 0.05;
 var inCell1, inCell2, inCell3 = false;
 
-
-
 var globalDifficulty, backgroundColor;
+var lives, displayLives;
+
 
 var gameInitiated = false;
 var doneLoading = false;
@@ -70,17 +70,25 @@ function difficulty(){
         if (globalDifficulty == "easy"){
             compXSpeed = 1;
             compYSpeed = 1.2;
+            lives = 2;
         }
 
         if (globalDifficulty == "hard"){
             compXSpeed = 1.5;
             compYSpeed = 2;
+            lives = 3;
         }
 
         if (globalDifficulty == "nope"){
             compXSpeed = 2.2;
             compYSpeed = 3;
+            lives = 5;
         }
+
+        displayLives = lives;
+        
+        if (computerScore != 0)
+            displayLives = displayLives - computerScore;
 
         compXPos += compXSpeed;
         compYPos += compYSpeed;            
@@ -188,15 +196,18 @@ function checkComputerScore(){
 function drawGame(){
     //drawing logic
     if (gameInitiated) {
-        game(globalDifficulty, backgroundColor);
-    } else {
+        if (computerScore >= lives)
+            drawStartScreen();
+        else
+            game(globalDifficulty, backgroundColor); 
+    } else {    
         drawStartScreen();
     }
 }
 
 function game(difficulty, backgroundColor){
     drawBackground(backgroundColor);
-    drawScoreText(DEVELOPMENT);
+    drawScoreText();
     drawCharacters();    
 
     if (newRound) {
@@ -229,9 +240,10 @@ function drawStartScreen(){
     }
 
 
-    difficultyCell(WIDTH/2 + 160, 300, 2, "Nope");
-    difficultyCell(WIDTH/2, 300, 1, "Hard");
+
     difficultyCell(WIDTH/2 - 160, 300, 0, "Easy");
+    difficultyCell(WIDTH/2, 300, 1, "Hard");
+    difficultyCell(WIDTH/2 + 160, 300, 2, "Nope");
     
 
     drawStartPlayer();
@@ -326,16 +338,17 @@ function drawBackground(backgroundColor){
     background(backgroundColor); 
 }
 
-function drawScoreText(developing){
-    fill(0);
+function drawScoreText(){
+    fill(255);
     stroke(255);
     textSize(15);
     textFont(fontRegular);
+    textAlign(LEFT);
+    text("Time played: " + Number((millis()/1000).toFixed(1)), 30, 30);
+    text("Lives left: " + displayLives, 30, 50);
+    text("Your score: " + playerScore, 30, 70);
+    text("Computer score: " + computerScore, 30, 90);
 
-    textStyle(NORMAL);
-    text("Time played: " + Number((millis()/1000).toFixed(1)), 50, 45);
-    text("Your score: " + playerScore, 50, 69);
-    text("Computer score: " + computerScore, 50, 92);
 }
 
 function drawCharacters(){
@@ -371,12 +384,7 @@ function startNewRound(){
     newRound = false;
 }
 
-
-// p5 functions
-function mousePressed(){
-  if (!mobile)
-    gameInitiated = true;
-}
+// p5
 
 function preload() {
     playerUp = loadImage("assets/player_up.svg");

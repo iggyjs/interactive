@@ -20,34 +20,7 @@
 
   </head>
   <body> 
-    <div id="writeUp">
-      <div id="content">
-        <p id="title">&#172; Chase Game</p>
-      </div>
 
-      
-
-
-      <p class="description">Game made for my interative computing class.</p>
-      <p class="description">Built using p5.js.</p>
-      <p class="description"> Characters designed using Sketch 3 to mimic classic space invaders design.</p>
-      <p class="description"> Music by Kyle Dixon & Michael Stein</p>
-
-      <p id="secondParagraph" class="description">Use the arrow keys to move around, get the red thing before it goes off the screen.</p>
-      <p class="description">Increases difficulty as you score.</p>
-      <p class="description">Click anywhere to start.</p>
-
-      <div id="assignments">
-        <p id="assignmentsText">&#8592; To go back to assignments</p>
-        <div id="keyGroup">
-          <kbd>Command</kbd><kbd>+</kbd> <kbd>B</kbd> 
-        </div>
-      </div>
-      <div id="loadStatus">
-          <kbd>loaded = <i id="bool">false</i></kbd>
-      </div>
-
-    </div>
 
     <center>
       <div id="mobile">
@@ -60,39 +33,4 @@
 
   </body>
 
-  <script>
-    $(function(){
-        if (DEVELOPMENT){
-            $("#writeUp").hide();
-        }
-
-        if($(window).width() > 600){ 
-            $("#writeUp").css("height", $(window).height()+'px');
-            $("#bool").html(doneLoading);
-
-            $(document).on('click', function(){
-              if (doneLoading) {
-                $("#loadStatus").hide();
-                $("#assignments").hide();
-                $("html, body").animate({ scrollTop: $(document).height() }, 1000);
-                return false;
-              }
-            });
-        } else {
-            mobile = true;
-            $("canvas").hide();
-            $("#writeUp").hide();
-            $("#mobile").fadeIn();
-        }
-
-    });
-
-    $(window).keydown(function (e){
-      if ((e.metaKey || e.ctrlKey) && e.keyCode == 66) { /*ctrl+b or command+b*/
-          e.preventDefault();
-          window.location.href = "http://i6.cims.nyu.edu/~ijs253/interactive/";
-          return false;
-      }
-    });
-  </script>
 </html>
