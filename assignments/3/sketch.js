@@ -17,11 +17,12 @@ var stars = [];
 var starsOpacity = 0.8;
 var cellColors = ["#8177E9", "#5BCECA", "#FB6868"];
 var cellStrokes = ["#5345E9", "#42AAA6", "#A93A3A"];
-
+var cellDimensions = [85, 85, 85];
 
 var startPlayerXSpeed = 0;
 var startPlayerYSpeed = 0;
 var startAcceleration = 0.05;
+var inCell1, inCell2, inCell3 = false;
 
 
 var gameInitiated = false;
@@ -200,7 +201,7 @@ function drawStartScreen(){
     // stars
     startScreenCounter++;
 
-    if (startScreenCounter%60 == 0) {
+    if (startScreenCounter%30 == 0) {
         stars.push(rect(random(0,WIDTH), random(0,HEIGHT), 1, 1));
     }
 
@@ -213,9 +214,9 @@ function drawStartScreen(){
     }
 
 
-    difficultyCell(WIDTH/2 - 160, 300, 85, 85, 0, "Easy");
-    difficultyCell(WIDTH/2, 300, 85, 85, 1, "Hard");
-    difficultyCell(WIDTH/2 + 160, 300, 85, 85, 2, "Nope");
+    difficultyCell(WIDTH/2 - 160, 300, 0, "Easy");
+    difficultyCell(WIDTH/2, 300, 1, "Hard");
+    difficultyCell(WIDTH/2 + 160, 300, 2, "Nope");
 
     drawStartPlayer();
 }
@@ -266,18 +267,57 @@ function moveStartPlayer(){
 
 }
 
-function difficultyCell(x,y,w,h,i,difficultyText){
+function difficultyCell(x,y,i,difficultyText){
 
-    fill(cellColors[i]);
-    stroke(cellStrokes[i]);
-    ellipse(x,y,w,h);
-    noStroke();
-    fill(255,255,255);
-    textSize(15);
-    text(difficultyText,x,y+5) 
+    if (startPlayerX > x-(cellDimensions[i]/2) && startPlayerX < x+(cellDimensions[i]/2) && startPlayerY < y+(cellDimensions[i]/2) && startPlayerY > y-(cellDimensions[i]/2)) {
+        if (i==0)
+            inCell1 = true;
 
-    if (startPlayerX > x-(w/2) && startPlayerX < x+(w/2) && startPlayerY < y+(h/2) && startPlayerY > y-(h/2)) {
-        console.log("inside");
+        if (i==1)
+            inCell2 = true;
+
+        if (i==2)
+            inCell3 = true;
+        
+        cellDimensions[i]+=5;
+        fill(cellColors[i]);
+        stroke(cellStrokes[i]);
+        ellipse(x,y,cellDimensions[i],cellDimensions[i]);
+        noStroke();
+        fill(255,255,255);
+        textSize(15);
+        text(difficultyText,x,y+5)  
+    }
+
+    else {
+        if (inCell1){
+            fill(cellColors[0]);
+            noStroke();
+            ellipse(x,y,cellDimensions[i],cellDimensions[i]);
+            
+        }
+
+        else if (inCell2) {
+            fill(cellColors[1]);
+            noStroke();
+            ellipse(x,y,cellDimensions[i],cellDimensions[i]);
+        }
+
+        else if (inCell3) {
+            fill(cellColors[2]);
+            noStroke();
+            ellipse(x,y,cellDimensions[i],cellDimensions[i]);
+        }
+
+        else { //not in any cells
+            fill(cellColors[i]);
+            stroke(cellStrokes[i]);
+            ellipse(x,y,cellDimensions[i],cellDimensions[i]);
+            noStroke();
+            fill(255,255,255);
+            textSize(15);
+            text(difficultyText,x,y+5);
+        }
     }
 }
 
