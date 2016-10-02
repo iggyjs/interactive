@@ -17,6 +17,7 @@ var stars = [];
 var starsOpacity = 0.8;
 var cellColors = ["#8177E9", "#5BCECA", "#FB6868"];
 var cellStrokes = ["#5345E9", "#42AAA6", "#A93A3A"];
+var difficulties = ["easy", "hard", "nope"];
 var cellDimensions = [85, 85, 85];
 
 var startPlayerXSpeed = 0;
@@ -24,6 +25,9 @@ var startPlayerYSpeed = 0;
 var startAcceleration = 0.05;
 var inCell1, inCell2, inCell3 = false;
 
+
+
+var globalDifficulty, backgroundColor;
 
 var gameInitiated = false;
 var doneLoading = false;
@@ -58,19 +62,30 @@ var newRound = false;
 var playerPositions = [[100,100], [WIDTH-100,100], [100,HEIGHT-100], [WIDTH-100,HEIGHT-100]];
 var computerPositions = [[300,300], [WIDTH-300,200], [300,HEIGHT-300], [300,300]];
 
-// Defined for readability
-function difficulty(){
-    if (playerScore == 0) {
-        compXPos += compXSpeed;
-        compYPos += compYSpeed;    
-    }
 
-    //increase difficulty
-    if (playerScore >= 1){
-        var scalar = playerScore * 0.05;
-        compXPos += compXSpeed + (compXSpeed*scalar);
-        compYPos += compYSpeed + (compYSpeed*scalar);
+function difficulty(){
+    if (globalDifficulty) { //check if initialized to value
+        var scalar;
+
+        if (globalDifficulty == "easy"){
+            compXSpeed = 1;
+            compYSpeed = 1.2;
+        }
+
+        if (globalDifficulty == "hard"){
+            compXSpeed = 1.5;
+            compYSpeed = 2;
+        }
+
+        if (globalDifficulty == "nope"){
+            compXSpeed = 2.2;
+            compYSpeed = 3;
+        }
+
+        compXPos += compXSpeed;
+        compYPos += compYSpeed;            
     }
+    
 }
 
 function callComputerMovementLogic(){   
@@ -173,14 +188,14 @@ function checkComputerScore(){
 function drawGame(){
     //drawing logic
     if (gameInitiated) {
-        game();
+        game(globalDifficulty, backgroundColor);
     } else {
         drawStartScreen();
     }
 }
 
-function game(){
-    drawBackground();
+function game(difficulty, backgroundColor){
+    drawBackground(backgroundColor);
     drawScoreText(DEVELOPMENT);
     drawCharacters();    
 
@@ -201,7 +216,7 @@ function drawStartScreen(){
     // stars
     startScreenCounter++;
 
-    if (startScreenCounter%30 == 0) {
+    if (startScreenCounter%10 == 0) {
         stars.push(rect(random(0,WIDTH), random(0,HEIGHT), 1, 1));
     }
 
@@ -230,7 +245,6 @@ function drawStartPlayer(){
 }
 
 function callStartPlayerMovementLogic(){
-    // change
     if (keyIsDown(LEFT_ARROW)) {
         startPlayerXSpeed -= acceleration;
     }
@@ -259,7 +273,6 @@ function callStartPlayerMovementLogic(){
     }
 
     moveStartPlayer();
-
 }
 
 function moveStartPlayer(){
@@ -280,7 +293,7 @@ function difficultyCell(x,y,i,difficultyText){
         if (i==2)
             inCell3 = true;
         
-        cellDimensions[i]+=5;
+        cellDimensions[i]+=15;
         fill(cellColors[i]);
         stroke(cellStrokes[i]);
         ellipse(x,y,cellDimensions[i],cellDimensions[i]);
@@ -291,6 +304,9 @@ function difficultyCell(x,y,i,difficultyText){
 
         if(cellDimensions[i] > WIDTH+250){
             // ready to start
+            gameInitiated = true;
+            globalDifficulty = difficulties[i];
+            backgroundColor = cellColors[i];
         }
     }
 
@@ -306,9 +322,8 @@ function difficultyCell(x,y,i,difficultyText){
     }
 }
 
-
-function drawBackground(){
-    background("#F8F8F8"); 
+function drawBackground(backgroundColor){
+    background(backgroundColor); 
 }
 
 function drawScoreText(developing){
@@ -334,7 +349,7 @@ function drawCharacters(){
 }
 
 function startNewRound(){
-    drawBackground();
+    drawBackground(backgroundColor);
     var index = parseInt(random(0,3));
     newPlayerPos = playerPositions[index];
     newComputerPos = computerPositions[index];
