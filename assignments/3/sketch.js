@@ -31,6 +31,8 @@ var lives, displayLives;
 
 
 var gameInitiated = false;
+var gameOver = false;
+
 var doneLoading = false;
 var mobile = false;
 var xPos, yPos;
@@ -90,9 +92,6 @@ function difficulty(){
         }
 
         displayLives = lives;
-
-        if (computerScore != 0)
-            displayLives = displayLives - computerScore;
 
         difficulty = noop;
     }
@@ -205,10 +204,12 @@ function checkComputerScore(){
 function drawGame(){
     //drawing logic
     if (gameInitiated) {
-        if (computerScore >= lives)
-            drawGameOverScreen();
-        else
+        if (computerScore >= lives){
+            gameOver = true;
+        }
+        else{
             game(globalDifficulty, backgroundColor); 
+        }
     } else {    
         drawStartScreen();
     }
@@ -220,34 +221,30 @@ function game(difficulty, backgroundColor){
     drawCharacters();    
 
     if (newRound) {
+        displayLives--;
         startNewRound();
     }   
 }
 
-
 function drawGameOverScreen(){
-    background(backgroundColor);
+    if (gameOver) {
+        background(backgroundColor);
 
+        newGameCell(WIDTH/2, 300, "Play again");
+        
+        //text
+        textSize(20);
+        textFont(fontRegular);
+        textAlign(CENTER);
+        text("Game Over", WIDTH/2, 100);
 
-    fill('rgba(255,255,255)');
-    noStroke();
-    
-
-    newGameCell(WIDTH/2, 300, "Play again");
-    
-    //text
-    textSize(20);
-    textFont(fontRegular);
-    textAlign(CENTER);
-    text("Game Over", WIDTH/2, 100);
-
-    drawStartPlayer();
+        drawStartPlayer();
+    }
 }
 
 function newGameCell(x,y,passedText){
 
     if (startPlayerX > x-(newGameCellDimension/2) && startPlayerX < x+(newGameCellDimension/2) && startPlayerY < y+(newGameCellDimension/2) && startPlayerY > y-(newGameCellDimension/2)) {
-        
         newGameCellDimension+=15;
         fill(0);
         stroke(0);
@@ -255,31 +252,32 @@ function newGameCell(x,y,passedText){
         noStroke();
         fill(255,255,255);
         textSize(15);
-        text(difficultyText,x,y+5);
+        text(passedText,x,y+5);
 
         if(newGameCellDimension > WIDTH+550){
             // ready to start
-            gameInitiated = true;
-            
+            gameInitiated = false;
+            gameOver = false;
+            computerScore = 0;
+            lives = null;
+
         }
     }
 
     else {
-
         fill(0);
-        stroke(0);
         ellipse(x,y,newGameCellDimension,newGameCellDimension);
         noStroke();
         fill(255,255,255);
         textSize(15);
-        text(difficultyText,x,y+5);
+        text(passedText,x,y+5)
     }
 }
 
 
 
 function drawStartScreen(){
-    
+ 
     //text
     textSize(20);
     textFont(fontRegular);
@@ -520,6 +518,13 @@ function draw() {
         // collision
         playerScore++;
         newRound = true;
-    }    
-    drawGame();
+    }
+
+    if (gameOver){
+        drawGameOverScreen();
+    }
+
+    if (!gameOver){
+        drawGame();
+    }
 }
