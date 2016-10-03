@@ -1,11 +1,8 @@
 // TODO:
 /*
+    - Fix game -> game over -> new game flow
     - Add some HTML Panel to engage in cheat mode
-    = Add start screen to choose difficulty
-    - Have different difficulty settings
-    - Design background for game
     - Create some obstacle
-    - Implement lives
     - Attach Parse to record high scores    
 */
 var DEVELOPMENT = true;
@@ -32,6 +29,8 @@ var lives, displayLives;
 
 var gameInitiated = false;
 var gameOver = false;
+
+var setDifficulty = true;
 
 var doneLoading = false;
 var mobile = false;
@@ -228,11 +227,12 @@ function game(backgroundColor){
     drawScoreText();
     drawCharacters();    
 
-    if (newRound) {
+    if (newRound)
         startNewRound();
-    }
+    
 
-    difficulty();
+    if (setDifficulty)
+        difficulty();
 }
 
 function difficulty(){
@@ -260,7 +260,7 @@ function difficulty(){
 
         displayLives = lives;
 
-        difficulty = noop;
+        setDifficulty = false;
     } 
 }
 
@@ -282,7 +282,7 @@ function newGameCell(x,y,passedText){
 
     if (startPlayerX > x-(newGameCellDimension/2) && startPlayerX < x+(newGameCellDimension/2) && startPlayerY < y+(newGameCellDimension/2) && startPlayerY > y-(newGameCellDimension/2)) {
         newGameCellDimension+=15;
-        fill(0);
+        fill("#2F334D");
         stroke(0);
         ellipse(x,y,newGameCellDimension,newGameCellDimension);
         noStroke();
@@ -297,7 +297,7 @@ function newGameCell(x,y,passedText){
         }
     }
     else {
-        fill(0);
+        fill("#2F334D");
         ellipse(x,y,newGameCellDimension,newGameCellDimension);
         noStroke();
         fill(255,255,255);
@@ -306,20 +306,19 @@ function newGameCell(x,y,passedText){
     }
 }
 
-
 function resetGame(){
     background("#2F334D");
     gameInitiated = false;
     gameOver = false;
     computerScore = 0;
+    playerScore = 0;
     lives = 1;
     cellDimensions = [85, 85, 85];
     newGameCellDimension = 85;
+    setDifficulty = true;
     globalDifficulty = null;
     backgroundColor = null;
-    resetGame = noop;
 }
-
 
 function drawStartScreen(){
  
