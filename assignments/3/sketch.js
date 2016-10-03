@@ -68,36 +68,6 @@ var computerPositions = [[300,300], [WIDTH-300,200], [300,HEIGHT-300], [300,300]
 // do not remove
 function noop(){};
 
-function difficulty(){
-    
-    if (globalDifficulty) { //check if initialized to value
-        var scalar;
-
-        if (globalDifficulty == "easy"){
-            compXSpeed = 1;
-            compYSpeed = 1.2;
-            lives = 2;
-        }
-
-        if (globalDifficulty == "hard"){
-            compXSpeed = 1.5;
-            compYSpeed = 2;
-            lives = 3;
-        }
-
-        if (globalDifficulty == "nope"){
-            compXSpeed = 2.2;
-            compYSpeed = 3;
-            lives = 5;
-        }
-
-        displayLives = lives;
-
-        difficulty = noop;
-    }
-    
-}
-
 function moveComputer(){
     compXPos += compXSpeed;
     compYPos += compYSpeed; 
@@ -185,18 +155,22 @@ function callChaseLogic(userRight, userLeft, userTop, userBottom, computerTop, c
 function checkComputerScore(){
     if (compXPos > width) {
         computerScore++;
+        displayLives --;
         newRound = true;
     }
     if (compXPos < 0) {
         computerScore++;
+        displayLives --;
         newRound = true;
     }
     if (compYPos > HEIGHT) {
         computerScore++;
+        displayLives --;
         newRound = true;
     }
     if (compYPos < 0) {
         computerScore++;
+        displayLives --;
         newRound = true;
     }
 }
@@ -208,38 +182,100 @@ function drawGame(){
             gameOver = true;
         }
         else{
-            game(globalDifficulty, backgroundColor); 
+            game(backgroundColor); 
         }
     } else {    
         drawStartScreen();
     }
 }
 
-function game(difficulty, backgroundColor){
+function game(backgroundColor){
+    var userRight = xPos + characterImage.width;
+    var userLeft  = xPos;
+    var userTop   = yPos;
+    var userBottom = yPos + characterImage.height;
+
+    var computerTop    = compYPos;
+    var computerBottom = compYPos + computerImage.height;
+    var computerRight = compXPos + computerImage.width;
+    var computerLeft  = compXPos;
+
+    //increase difficulty
+    moveComputer();
+
+    //movement
+    callComputerMovementLogic();
+    callPlayerMovementLogic();
+    movePlayer();
+
+    //chase
+    callChaseLogic(userRight, userLeft, userTop, userBottom, computerTop, computerBottom, computerRight, computerLeft);
+
+    //computer score
+    checkComputerScore();
+
+    //collisions
+    if (userRight < computerLeft || userLeft > computerRight || userBottom < computerTop || userTop > computerBottom) {
+
+    }
+    else {
+        // collision
+        playerScore++;
+        newRound = true;
+    }
+
     drawBackground(backgroundColor);
     drawScoreText();
     drawCharacters();    
 
     if (newRound) {
-        displayLives--;
         startNewRound();
-    }   
+    }
+
+    difficulty();
+}
+
+function difficulty(){
+    
+    if (globalDifficulty) { //check if initialized to value
+        var scalar;
+
+        if (globalDifficulty == "easy"){
+            compXSpeed = 1;
+            compYSpeed = 1.2;
+            lives = 2;
+        }
+
+        if (globalDifficulty == "hard"){
+            compXSpeed = 1.5;
+            compYSpeed = 2;
+            lives = 3;
+        }
+
+        if (globalDifficulty == "nope"){
+            compXSpeed = 2.2;
+            compYSpeed = 3;
+            lives = 5;
+        }
+
+        displayLives = lives;
+
+        difficulty = noop;
+    } 
 }
 
 function drawGameOverScreen(){
-    if (gameOver) {
-        background(backgroundColor);
+    background(backgroundColor);
 
-        newGameCell(WIDTH/2, 300, "Play again");
-        
-        //text
-        textSize(20);
-        textFont(fontRegular);
-        textAlign(CENTER);
-        text("Game Over", WIDTH/2, 100);
+    newGameCell(WIDTH/2, 300, "Play again");
+    
+    //text
+    textSize(20);
+    textFont(fontRegular);
+    textAlign(CENTER);
+    // text("Game Over", WIDTH/2, 100);
 
-        drawStartPlayer();
-    }
+    drawStartPlayer();
 }
 
 function newGameCell(x,y,passedText){
@@ -256,14 +292,10 @@ function newGameCell(x,y,passedText){
 
         if(newGameCellDimension > WIDTH+550){
             // ready to start
-            gameInitiated = false;
-            gameOver = false;
-            computerScore = 0;
-            lives = null;
+            resetGame();
 
         }
     }
-
     else {
         fill(0);
         ellipse(x,y,newGameCellDimension,newGameCellDimension);
@@ -274,6 +306,19 @@ function newGameCell(x,y,passedText){
     }
 }
 
+
+function resetGame(){
+    background("#2F334D");
+    gameInitiated = false;
+    gameOver = false;
+    computerScore = 0;
+    lives = 1;
+    cellDimensions = [85, 85, 85];
+    newGameCellDimension = 85;
+    globalDifficulty = null;
+    backgroundColor = null;
+    resetGame = noop;
+}
 
 
 function drawStartScreen(){
@@ -308,7 +353,6 @@ function drawStartScreen(){
 
     drawStartPlayer();
 }
-
 
 function drawStartPlayer(){
     image(startScreenPlayer, startPlayerX, startPlayerY);
@@ -350,7 +394,6 @@ function callStartPlayerMovementLogic(){
 function moveStartPlayer(){
     startPlayerX += startPlayerXSpeed;
     startPlayerY += startPlayerYSpeed;
-
 }
 
 function difficultyCell(x,y,i,difficultyText){
@@ -485,40 +528,6 @@ function setup() {
 }
 
 function draw() {
-    var userRight = xPos + characterImage.width;
-    var userLeft  = xPos;
-    var userTop   = yPos;
-    var userBottom = yPos + characterImage.height;
-
-    var computerTop    = compYPos;
-    var computerBottom = compYPos + computerImage.height;
-    var computerRight = compXPos + computerImage.width;
-    var computerLeft  = compXPos;
-
-    //increase difficulty
-    difficulty();
-    moveComputer();
-
-    //movement
-    callComputerMovementLogic();
-    callPlayerMovementLogic();
-    movePlayer();
-
-    //chase
-    callChaseLogic(userRight, userLeft, userTop, userBottom, computerTop, computerBottom, computerRight, computerLeft);
-
-    //computer score
-    checkComputerScore();
-
-    //collisions
-    if (userRight < computerLeft || userLeft > computerRight || userBottom < computerTop || userTop > computerBottom) {
-
-    }
-    else {
-        // collision
-        playerScore++;
-        newRound = true;
-    }
 
     if (gameOver){
         drawGameOverScreen();
