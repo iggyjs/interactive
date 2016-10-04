@@ -21,16 +21,31 @@
   </head>
   <body> 
 
-
-    <center>
+  <button id="switch"> Cheat </button>
+  <!-- <center>
       <div id="mobile">
         <img id="laptopImg" src="assets/laptop_img.png" alt="">
         <p class="mobile-text">This game is meant for Desktop only.</p>
         <p class="mobile-text">Game uses arrow keys, which phones don't have just yet.</p>
         <a href="http://i6.cims.nyu.edu/~ijs253/interactive/" style="font-size:15px; text-decoration: none; color:inherit;" class="mobile-text">&#8592; To go back to assignments</a>
       </div>
-    </center>
+    </center> -->
 
+  <script>
+    $(function(){
+      $("#switch").hide();
+      $("#switch").on('click', function(){
+        if(cheats > 0) {
+          compXSpeed=0;
+          compYSpeed=0;
+          cheats--;
+        }
+        else {
+          // No cheats left message
+        }
+
+      });
+    });
+  </script>
   </body>
-
 </html>

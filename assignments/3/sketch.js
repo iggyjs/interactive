@@ -1,9 +1,9 @@
 // TODO:
 /*
-    - Fix game -> game over -> new game flow
+    - Fix "Time Played" millis bug
     - Add some HTML Panel to engage in cheat mode
     - Create some obstacle
-    - Attach Parse to record high scores    
+
 */
 var DEVELOPMENT = true;
 
@@ -26,7 +26,7 @@ var inCell1, inCell2, inCell3 = false;
 var globalDifficulty, backgroundColor;
 var lives, displayLives;
 
-
+var cheats=2;
 var gameInitiated = false;
 var gameOver = false;
 
@@ -318,6 +318,12 @@ function resetGame(){
     setDifficulty = true;
     globalDifficulty = null;
     backgroundColor = null;
+
+    startPlayerX = WIDTH/2;
+    startPlayerY = 500;
+    startPlayerXSpeed=0;
+    startPlayerYSpeed=0;
+    cheats=2;
 }
 
 function drawStartScreen(){
@@ -419,6 +425,7 @@ function difficultyCell(x,y,i,difficultyText){
         if(cellDimensions[i] > WIDTH+550){
             // ready to start
             gameInitiated = true;
+            $("#switch").show();
             globalDifficulty = difficulties[i];
             backgroundColor = cellColors[i];
         }
@@ -448,6 +455,7 @@ function drawScoreText(){
     text("Time played: " + Number((millis()/1000).toFixed(1)), 30, 30);
     text("Lives left: " + displayLives, 30, 50);
     text("Score: " + playerScore, 30, 70);
+    text("Cheats left: " + cheats, 30, 90);
 }
 
 function drawCharacters(){
@@ -481,6 +489,7 @@ function startNewRound(){
     compXPos = newComputerPosX - 0.5 * computerImage.width;;
     compYPos = newComputerPosY - 0.5 * computerImage.height;;
     newRound = false;
+    setDifficulty = true;
 }
 
 // p5
@@ -529,6 +538,7 @@ function setup() {
 function draw() {
 
     if (gameOver){
+        $("#switch").hide();
         drawGameOverScreen();
     }
 
