@@ -1,7 +1,6 @@
 // TODO:
 /*
     - Fix "Time Played" millis bug
-    - Add some HTML Panel to engage in cheat mode
     - Create some obstacle
 
 */
@@ -18,6 +17,8 @@ var cellDimensions = [85, 85, 85];
 
 var newGameCellDimension = 85;
 
+
+var warning = "";
 var startPlayerXSpeed = 0;
 var startPlayerYSpeed = 0;
 var startAcceleration = 0.05;
@@ -101,6 +102,40 @@ function callPlayerMovementLogic(){
       characterImage = playerUp;
     }
     if (keyIsDown(DOWN_ARROW)) {
+      playerYSpeed += acceleration;
+      characterImage = playerDown;
+    }
+
+    //wrap around
+    if (xPos > width) {
+      xPos = 0;
+    }
+    if (xPos < 0) {
+      xPos = width;
+    }
+    if (yPos > HEIGHT) {
+      yPos = 0;
+    }
+    if (yPos < 0) {
+      yPos = HEIGHT;
+    }
+}
+
+
+function callPlayerMovementLogicReversed(){
+    if (keyIsDown(RIGHT_ARROW)) {
+      playerXSpeed -= acceleration;
+      characterImage = playerLeft;
+    }
+    if (keyIsDown(LEFT_ARROW)) {
+      playerXSpeed += acceleration;
+      characterImage = playerRight;
+    }
+    if (keyIsDown(DOWN_ARROW)) {
+      playerYSpeed -= acceleration;
+      characterImage = playerUp;
+    }
+    if (keyIsDown(UP_ARROW)) {
       playerYSpeed += acceleration;
       characterImage = playerDown;
     }
@@ -204,7 +239,17 @@ function game(backgroundColor){
 
     //movement
     callComputerMovementLogic();
-    callPlayerMovementLogic();
+    
+    if (playerScore==0 || playerScore%3 != 0){
+        callPlayerMovementLogic();
+        warning = "";
+    }
+
+    if (playerScore!=0 && playerScore%3 == 0){
+        callPlayerMovementLogicReversed();
+        warning = "Arrow keys reversed!";
+    }
+
     movePlayer();
 
     //chase
@@ -225,12 +270,11 @@ function game(backgroundColor){
 
     drawBackground(backgroundColor);
     drawScoreText();
-    drawCharacters();    
+    drawCharacters();
 
     if (newRound)
         startNewRound();
     
-
     if (setDifficulty)
         difficulty();
 }
@@ -457,6 +501,7 @@ function drawScoreText(){
     text("Lives left: " + displayLives, 30, 50);
     text("Score: " + playerScore, 30, 70);
     text("Cheats left: " + cheats, 30, 90);
+    text(warning, 30, 110)
 }
 
 function drawCharacters(){
