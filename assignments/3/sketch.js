@@ -258,7 +258,9 @@ function difficulty(){
             lives = 5;
         }
 
-        displayLives = lives;
+        if (setDifficulty)
+            displayLives = lives;
+        
         setDifficulty = false;
     } 
 }
@@ -488,6 +490,9 @@ function startNewRound(){
     compXPos = newComputerPosX - 0.5 * computerImage.width;;
     compYPos = newComputerPosY - 0.5 * computerImage.height;;
     newRound = false;
+
+    //cheats
+    difficulty();
 }
 
 // p5

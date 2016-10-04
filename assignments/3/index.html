@@ -38,10 +38,10 @@
         if(cheats > 0) {
           compXSpeed=0;
           compYSpeed=0;
-          cheats--;
-        }
-        else {
-          // No cheats left message
+          cheats--; 
+
+          if (cheats <= 0)
+            $("#switch").hide();
         }
 
       });
