@@ -259,7 +259,6 @@ function difficulty(){
         }
 
         displayLives = lives;
-
         setDifficulty = false;
     } 
 }
@@ -489,7 +488,6 @@ function startNewRound(){
     compXPos = newComputerPosX - 0.5 * computerImage.width;;
     compYPos = newComputerPosY - 0.5 * computerImage.height;;
     newRound = false;
-    setDifficulty = true;
 }
 
 // p5
