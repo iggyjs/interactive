@@ -581,8 +581,11 @@ function setup() {
     }
 
     background("#2F334D");
-    var writeUpDesText = "This game is a modified version of the game I built for assignment 2. Mostly the inspiration for the design came from modeling some sort of 'space-like' environment. Music by Kyle Dixon & Michael Stein. "
-    var writeUp = "<div id='writeUp'><p id='writeUpTitle'>Write up</p><p id='writeUpDes'>"+writeUpDesText+"</p></div>";
+    var writeUpDesText1 = "This game is a modified version of the game I built for assignment 2. Mostly the inspiration for the design came from modeling some sort of 'space-like' environment. I was mostly interested in creating transitions between game-states that were as seamless as possible so as to make it seem like it has a consistent flow. I feel as though hiding all the programming and inner workings of the game from the user is really important, otherwise it's hard to get lost in the experience of the game.";
+    var writeUpDesText2 = "Characters made using Sketch 3. Music by Kyle Dixon & Michael Stein.";
+    var writeUpDesText3 = "Images of physical controller on Emma Collins' game:";
+
+    var writeUp = "<div id='writeUp'><p id='writeUpTitle'>Write up</p><p class='write-up-des'>"+writeUpDesText1+"</p><p class='write-up-des'>"+writeUpDesText2+"</p><p class='write-up-des'>"+writeUpDesText3+"</p><center><img class='controller-image' src='assets/images/1.JPG'> <img class='controller-image' src='assets/images/2.JPG'> <img class='controller-image' src='assets/images/3.JPG'></center></div>";
     $(writeUp).insertAfter("canvas");
 
 }
