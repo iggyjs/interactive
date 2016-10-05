@@ -12,3 +12,27 @@
 	font-family: 'Lato', sans-serif;
 	outline: none;
 }
+
+#writeUp{
+	background-color: #2F334D; 
+	color:white;
+	padding: 70px;
+}
+
+#writeUpTitle{
+	font-family: 'Lato', sans-serif;
+	font-size: 22px;
+	font-weight: 300;
+	margin: 0 !important;
+	padding:14px;
+	border:1px dashed white;
+}
+
+#writeUpDes{
+	font-family: 'Lato', sans-serif;
+	font-size: 16px;
+	padding-left: 70px;
+	padding-top: 30px;
+	font-weight: 300;
+	line-height: 1.8em;
+}

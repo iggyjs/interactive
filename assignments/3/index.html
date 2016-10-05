@@ -15,7 +15,7 @@
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
-    <style> body {padding: 0; margin: 0; top:0; background-color:#F8F8F8; overflow-y: hidden} canvas {vertical-align: top;} </style>
+    <style> body {padding: 0; margin: 0; top:0; background-color:#F8F8F8;} canvas {vertical-align: top;} </style>
 
 
   </head>
@@ -43,9 +43,14 @@
           if (cheats <= 0)
             $("#switch").hide();
         }
-
       });
     });
+
+    $(document).keydown(function(e) {
+      if (e.keyCode == 40)
+        e.preventDefault();
+    });
+
   </script>
   </body>
 </html>

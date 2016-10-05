@@ -4,7 +4,7 @@
     - Create some obstacle
 
 */
-var DEVELOPMENT = true;
+var DEVELOPMENT = false;
 
 //start screen
 var startScreenCounter = 0;
@@ -581,6 +581,10 @@ function setup() {
     }
 
     background("#2F334D");
+    var writeUpDesText = "This game is a modified version of the game I built for assignment 2. Mostly the inspiration for the design came from modeling some sort of 'space-like' environment. Music by Kyle Dixon & Michael Stein. "
+    var writeUp = "<div id='writeUp'><p id='writeUpTitle'>Write up</p><p id='writeUpDes'>"+writeUpDesText+"</p></div>";
+    $(writeUp).insertAfter("canvas");
+
 }
 
 function draw() {
