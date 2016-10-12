@@ -1,30 +1,32 @@
 var myBall;
+var popFrequencies = [60, 90, 120]
 var frameCount
 var click = false;
+var score = 0;
 
 function setup() {
   createCanvas(500, 500);
-
   //column 1
-  mole1 = new Ball(50, 50);
-  mole2 = new Ball(50, 100);
-  mole3 = new Ball(50, 150);
+  mole1 = new Mole(50, 50);
+  mole2 = new Mole(50, 100);
+  mole3 = new Mole(50, 150);
 
   //column 2
-  mole4 = new Ball(100, 50);
-  mole5 = new Ball(100, 100);
-  mole6 = new Ball(100, 150);
+  mole4 = new Mole(100, 50);
+  mole5 = new Mole(100, 100);
+  mole6 = new Mole(100, 150);
 
   //column 3
 
-  mole7 = new Ball(150, 50);
-  mole8 = new Ball(150, 100);
-  mole9 = new Ball(150, 150);
+  mole7 = new Mole(150, 50);
+  mole8 = new Mole(150, 100);
+  mole9 = new Mole(150, 150);
 
 }
 
 function draw() {
   background(255);
+  text("Score: "+ score, 10, 20);
   mole1.display();
   mole2.display();
   mole3.display();
@@ -47,14 +49,11 @@ function draw() {
 
 }
 
-function Ball(x, y) {
+function Mole(x, y) {
   this.xPos = x;
   this.yPos = y;
-
-  this.changeInterval = Math.floor(random(90, 180));
+  this.changeInterval = popFrequencies[Math.floor(random(0, popFrequencies.length))];
   this.state = 0;
-  this.xSpeed = random(-2, 2);
-  this.ySpeed = random(-2, 2);
 
   this.display = function() {
     if (this.state == 0) {
@@ -82,11 +81,9 @@ function Ball(x, y) {
   }
 
   this.checkForClick = function() {
-    if ((mouseX > this.xPos) && (mouseX < this.xPos + 25) && (mouseY < this.yPos + 25) && (mouseY > this.yPos) && (this.state==1)) {
-      console.log("whack" + frameCount);
+    if ((mouseX > this.xPos) && (mouseX < this.xPos + 25) && (mouseY < this.yPos + 25) && (mouseY > this.yPos) && (this.state == 1)) {
+      score++;
       this.state = 0;
-      
-
     }
   }
 }
