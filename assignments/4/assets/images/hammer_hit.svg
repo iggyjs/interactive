@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="63px" height="56px" viewBox="0 0 63 56" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.3 (11970) - http://www.bohemiancoding.com/sketch -->
+    <title>Slice 1</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="posthit" sketch:type="MSLayerGroup" transform="translate(31.543883, 28.003521) rotate(-30.000000) translate(-31.543883, -28.003521) translate(5.043883, 11.503521)" fill="#434343">
+            <g id="Rectangle-3-+-Rectangle-3-Copy" transform="translate(26.030744, 16.225009) rotate(-90.000000) translate(-26.030744, -16.225009) translate(10.030744, -9.774991)" sketch:type="MSShapeGroup">
+                <rect id="Rectangle-3" x="10" y="14" width="14" height="38" rx="4"></rect>
+                <rect id="Rectangle-3-Copy" transform="translate(16.500000, 9.347217) rotate(-270.000000) translate(-16.500000, -9.347217) " x="8.15278253" y="-6.15278253" width="16.6944349" height="31" rx="4"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

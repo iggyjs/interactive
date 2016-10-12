@@ -16,9 +16,15 @@ var timer = ALLOTTED_TIME;
 var timeStop;
 var arcFill=6.282;
 
+
+var hitImage;
+
 function preload(){
   fontRegular = loadFont("assets/Uni-Sans-Thin.otf");
   fontHeavy = loadFont("assets/Uni-Sans-Heavy-Italic.otf");
+  preHitImage = loadImage("assets/images/hammer.svg");
+  postHitImage = loadImage("assets/images/hammer_hit.svg");
+
 }
 
 function setup() {
@@ -38,6 +44,7 @@ function setup() {
   mole8 = new Mole(WIDTH/2+100, 300);
   mole9 = new Mole(WIDTH/2+100, 400);
 
+  hitImage = preHitImage;
 }
 
 function draw() {
@@ -64,6 +71,7 @@ function draw() {
       arcFill -= TWO_PI/ALLOTTED_TIME;
     }
 
+  
     mole1.display();
     mole2.display();
     mole3.display();
@@ -83,6 +91,9 @@ function draw() {
     mole7.stateCheck();
     mole8.stateCheck();
     mole9.stateCheck();
+
+    // cursor graphics
+    image(hitImage, mouseX-18, mouseY-20);
 
   }
 
@@ -153,9 +164,15 @@ function drawGameOverScreen(){
   text("Click to play again.", WIDTH/2 - 80, HEIGHT/2 - 20);
 }
 
+function mouseReleased(){
+  hitImage = preHitImage;
+}
+
 
 function mousePressed() {
   if (state ==1) {
+    hitImage = postHitImage;
+
     mole1.checkForClick();
     mole2.checkForClick();
     mole3.checkForClick();
@@ -165,6 +182,7 @@ function mousePressed() {
     mole7.checkForClick();
     mole8.checkForClick();
     mole9.checkForClick();
+
   }
 
   else if (state == 0) {
