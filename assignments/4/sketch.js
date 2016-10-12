@@ -8,6 +8,13 @@ var click = false;
 var score = 0;
 var state = 0;
 
+var ALLOTTED_TIME = 15;
+
+// RESET
+var timerCounter = 0;
+var timer = ALLOTTED_TIME;
+var timeStop;
+var arcFill=6.282;
 
 function preload(){
   fontRegular = loadFont("assets/Uni-Sans-Thin.otf");
@@ -27,13 +34,9 @@ function setup() {
   mole6 = new Mole(WIDTH/2, 400);
 
   //column 3
-
   mole7 = new Mole(WIDTH/2+100, 200);
   mole8 = new Mole(WIDTH/2+100, 300);
   mole9 = new Mole(WIDTH/2+100, 400);
-
-  var now = moment();
-  console.log(now.format("hh:mm:ss"));
 
 }
 
@@ -41,13 +44,25 @@ function draw() {
   background(255);
 
   if (state == 1) {
-    textFont(fontRegular);
+    timerCounter++;
+    textFont(fontHeavy);
     fill(0);
-    textSize(18);
-    text("Simple whack-a-mole", 15, 25);
     textSize(14);
-    text("score: "+ score, 15, 50);
+    text("score: "+ score, 25, 35);
 
+    // pretty timer
+    text(timer, WIDTH-56.5, 54);
+    noFill();
+    arc(WIDTH-50, 50, 40, 40, 0, arcFill, OPEN);
+
+    if (parseInt(moment().format("ss")) == timeStop){
+      state = 2;
+    }
+    
+    if (timerCounter%60 == 0){
+      timer--;
+      arcFill -= TWO_PI/ALLOTTED_TIME;
+    }
 
     mole1.display();
     mole2.display();
@@ -68,13 +83,15 @@ function draw() {
     mole7.stateCheck();
     mole8.stateCheck();
     mole9.stateCheck();
-  } else if (state == 0){
-    textFont(fontHeavy);
-    fill(0);
-    textSize(24);
-    text("Simple whack-a-mole", WIDTH/2 - 120, HEIGHT/2 - 100);
-    textSize(14);
-    text("15 seconds to play, click to start.", WIDTH/2 - 110, HEIGHT/2 - 50);
+
+  }
+
+  else if (state == 0){
+    drawStartScreen();
+  }
+
+  else if (state == 2){
+    drawGameOverScreen();
   }
 }
 
@@ -110,12 +127,32 @@ function Mole(x, y) {
   }
 
   this.checkForClick = function() {
-    if ((mouseX > this.xPos) && (mouseX < this.xPos + 25) && (mouseY < this.yPos + 25) && (mouseY > this.yPos) && (this.state == 1)) {
+    if ((mouseX > this.xPos) && (mouseX < this.xPos + 50) && (mouseY < this.yPos + 50) && (mouseY > this.yPos) && (this.state == 1)) {
       score++;
       this.state = 0;
     }
   }
 }
+
+function drawStartScreen(){
+  textFont(fontHeavy);
+  fill(0);
+  textSize(24);
+  text("Simple whack-a-mole", WIDTH/2 - 120, HEIGHT/2 - 100);
+  textSize(14);
+  text("15 seconds to play, click to start.", WIDTH/2 - 110, HEIGHT/2 - 50);
+}
+
+function drawGameOverScreen(){
+  textFont(fontHeavy);
+  fill(0);
+  textSize(24);
+  text("Game over!", WIDTH/2 - 80, HEIGHT/2 - 100);
+  textSize(14);
+  text("Your score: " + score, WIDTH/2 - 65, HEIGHT/2 - 70);
+  text("Click to play again.", WIDTH/2 - 80, HEIGHT/2 - 20);
+}
+
 
 function mousePressed() {
   if (state ==1) {
@@ -128,8 +165,20 @@ function mousePressed() {
     mole7.checkForClick();
     mole8.checkForClick();
     mole9.checkForClick();
-  } else if (state == 0) {
+  }
+
+  else if (state == 0) {
     state = 1;
+    timeStop = moment().add(ALLOTTED_TIME, "seconds").format("ss");
+  }
+
+  else if (state == 2) {
+    state = 1;
+    score = 0;
+    timerCounter=0;
+    timer = ALLOTTED_TIME;
+    timeStop = moment().add(ALLOTTED_TIME, "seconds").format("ss");
+    arcFill=6.282;
   }
 
 }
