@@ -18,13 +18,15 @@ var arcFill=6.282;
 
 
 var hitImage;
+var gameSound;
 
 function preload(){
   fontRegular = loadFont("assets/Uni-Sans-Thin.otf");
   fontHeavy = loadFont("assets/Uni-Sans-Heavy-Italic.otf");
   preHitImage = loadImage("assets/images/hammer.svg");
   postHitImage = loadImage("assets/images/hammer_hit.svg");
-
+  enemy = loadImage("assets/images/enemy.svg");
+  gameSound = loadSound("assets/sounds/gameSound.mp3");
 }
 
 function setup() {
@@ -60,6 +62,7 @@ function draw() {
     // pretty timer
     text(timer, WIDTH-56.5, 54);
     noFill();
+    stroke("#434343");
     arc(WIDTH-50, 50, 40, 40, 0, arcFill, OPEN);
 
     if (parseInt(moment().format("ss")) == timeStop){
@@ -114,11 +117,11 @@ function Mole(x, y) {
 
   this.display = function() {
     if (this.state == 0) {
-      fill(128);
-      rect(this.xPos, this.yPos, 50, 50);
+      fill(0);
+      noStroke();
+      rect(this.xPos+20, this.yPos+20, 10, 10);
     } else if (this.state == 1) {
-      fill("#3949AB");
-      rect(this.xPos, this.yPos, 50, 50);
+      image(enemy, this.xPos, this.yPos);
     }
   }
 
@@ -140,6 +143,7 @@ function Mole(x, y) {
   this.checkForClick = function() {
     if ((mouseX > this.xPos) && (mouseX < this.xPos + 50) && (mouseY < this.yPos + 50) && (mouseY > this.yPos) && (this.state == 1)) {
       score++;
+      gameSound.play();
       this.state = 0;
     }
   }
