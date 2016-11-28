@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en-us">
+	<head>
+		<meta charset="UTF-8">
+		
+		<!-- P5 libraries -->
+		<script language="javascript" type="text/javascript" src="libraries/p5.js"></script>
+		<script language="javascript" type="text/javascript" src="libraries/p5.dom.js"></script>
+		<script language="javascript" type="text/javascript" src="libraries/p5.sound.js"></script>
+		
+		<!-- A-Frame libraries -->
+		<script language="javascript" type="text/javascript" src="libraries/aframe.min.js"></script>
+
+		<!-- AFrameP5 library -->
+		<script language="javascript" type="text/javascript" src="libraries/aframep5.js"></script>
+
+		<!-- P5 Sketch -->
+		<script language="javascript" type="text/javascript" src="sketch.js"></script>
+		
+		<!-- custom styles -->
+		<style> 
+			body {
+				padding: 0; 
+				margin: 0;
+			} 
+		</style>
+	</head>
+	<body>
+	
+	    <a-scene id="VRScene">
+
+			<a-assets id="VRAssets">
+				<img src="images/brick.png" id="wood"></a-assets>
+				<img src="images/sky.jpg" id="sky"></a-assets>
+			</a-assets>
+			
+			<a-sky id="sky" src="#sky" color="rgb(255,255,255)"></a-sky>
+			  
+	    </a-scene>		
+		
+	</body>
+</html>

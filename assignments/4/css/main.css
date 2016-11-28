@@ -3,7 +3,11 @@ canvas{
 }
 
 #backToAssignments{
+	font-family: 'Open Sans', sans-serif;
+	font-size: 12px;
+	color: #434343;
+	text-decoration: none;
 	position: fixed;
-	bottom: 5px;
-	left: 5px;
+	bottom: 15px;
+	left: 15px;
 }
