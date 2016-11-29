@@ -1,4 +1,3 @@
-// variable to hold a reference to our A-Frame world
 var world;
 var rooks = [];
 var removeSound;
@@ -11,8 +10,6 @@ function setup() {
 	noCanvas();
 	noiseDetail(24);
 	world = new World('VRScene');
-
-	
 
 	var g = new Plane({	
 						x:0, 
@@ -27,13 +24,23 @@ function setup() {
 						metalness:0.25
 					});
 	
-	// add the plane to our world
 	world.add(g);
 
-	var iters = random(50, 100);
+	var moon = new DAE({
+		asset: 'moon',
+		scaleX:250,
+		scaleY:250,
+		scaleZ:250
+	});
+	world.add(moon);
+	
+
+
+
+	var iters = random(0, 50);
 
 	for (var i = 0; i < iters; i++){
-		r1 = new Rook(random(0, 50),1, -1 * random(-50,50));
+		r1 = new Rook(random(0, 50), 10, -1 * random(-50,50));
 		rooks.push(r1);
 	}
 
